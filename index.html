@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nacho Mollá – Técnico Informático</title>
+
+  <!-- Fuentes (mismas que tonomolla.com: Inter + JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ─── RESET & VARIABLES ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0b0f18;
+      --bg-card:    #111827;
+      --bg-hover:   #1a2236;
+      --border:     #1e2d40;
+      --text:       #ccd6f6;
+      --text-muted: #8892b0;
+      --accent:     #64ffda;
+      --accent-dim: rgba(100, 255, 218, 0.08);
+      --white:      #e6f1ff;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-mono:  'JetBrains Mono', monospace;
+      --nav-width:  280px;
+      --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+    a:hover { opacity: 0.8; }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────────────────────── */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ─── SIDEBAR ────────────────────────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: var(--nav-width);
+      min-width: var(--nav-width);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 64px 40px 40px;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .sidebar-top {}
+
+    .name {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .name span {
+      color: var(--accent);
+    }
+
+    .role {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 28px;
+    }
+
+    .bio-short {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    /* Navegación */
+    .nav { display: flex; flex-direction: column; gap: 6px; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      padding: 8px 0;
+      transition: var(--transition);
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .nav-link::before {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 24px;
+      background: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--accent);
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+      width: 48px;
+      background: var(--accent);
+    }
+
+    /* Social */
+    .social {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social a {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      transition: var(--transition);
+    }
+
+    .social a:hover { color: var(--accent); }
+
+    /* ─── MAIN ───────────────────────────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      padding: 64px 80px 128px 80px;
+      overflow-y: auto;
+    }
+
+    /* ─── SECCIONES ──────────────────────────────────────────────────────────── */
+    .section {
+      margin-bottom: 120px;
+      scroll-margin-top: 64px;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 40px;
+    }
+
+    /* ─── HERO / ABOUT ───────────────────────────────────────────────────────── */
+    #about {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 120px;
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+    }
+
+    .hero-desc {
+      max-width: 540px;
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      border-radius: 4px;
+      transition: var(--transition);
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .btn:hover {
+      background: var(--accent-dim);
+      opacity: 1;
+    }
+
+    /* ─── ABOUT TEXT ─────────────────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .about-text p strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .avatar-wrap {
+      position: relative;
+    }
+
+    .avatar-wrap img {
+      width: 100%;
+      max-width: 260px;
+      border-radius: 6px;
+      filter: grayscale(20%);
+      display: block;
+      margin: 0 auto;
+      border: 2px solid var(--border);
+    }
+
+    /* ─── SKILLS ─────────────────────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .skill-group {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: var(--transition);
+    }
+
+    .skill-group:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .skill-group-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 14px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--accent-dim);
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      border-radius: 4px;
+      padding: 4px 10px;
+      transition: var(--transition);
+    }
+
+    .tag:hover { color: var(--accent); }
+
+    /* ─── PROYECTOS DESTACADOS ───────────────────────────────────────────────── */
+    .project-featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 64px;
+      padding: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+
+    .project-featured:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .project-featured.reverse {
+      direction: rtl;
+    }
+
+    .project-featured.reverse > * {
+      direction: ltr;
+    }
+
+    .project-info {}
+
+    .project-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+    }
+
+    .project-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .project-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .project-links a:hover { color: var(--accent); opacity: 1; }
+
+    .project-img {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .project-img img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.8) saturate(0.8);
+      transition: var(--transition);
+    }
+
+    .project-featured:hover .project-img img {
+      filter: brightness(1) saturate(1);
+    }
+
+    /* Otros proyectos */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      cursor: default;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+
+    /* ─── EXPERIENCIA ────────────────────────────────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 8px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+
+    .timeline-role {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+
+    .timeline-company {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* ─── CONTACTO ───────────────────────────────────────────────────────────── */
+    #contact {
+      text-align: center;
+    }
+
+    #contact .section-title {
+      font-size: 2.6rem;
+    }
+
+    .contact-sub {
+      max-width: 500px;
+      margin: 0 auto 40px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    footer span { color: var(--accent); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .main { padding: 64px 48px 128px; }
+    }
+
+    @media (max-width: 900px) {
+      .layout { flex-direction: column; }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+        min-width: 0;
+        padding: 40px 32px 32px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .nav { flex-direction: row; flex-wrap: wrap; }
+      .bio-short { display: none; }
+      .main { padding: 48px 32px 80px; }
+
+      .about-grid { grid-template-columns: 1fr; }
+      .avatar-wrap { display: none; }
+
+      .project-featured {
+        grid-template-columns: 1fr;
+        direction: ltr !important;
+      }
+
+      .project-img { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .main { padding: 32px 20px 60px; }
+      .hero-name { font-size: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- ═══════════════════════════════ SIDEBAR ════════════════════════════════ -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+
+        <p class="name">NACHO<span>MOLLÁ</span></p>
+        <p class="role">Técnico Informático</p>
+
+        <p class="bio-short">
+          Técnico Informático con experiencia en soporte IT, administración
+          de sistemas y ciberseguridad. Estudiando ASIR en IES Porçons.
+        </p>
+
+        <nav class="nav">
+          <a class="nav-link active" href="#about">Sobre mí</a>
+          <a class="nav-link" href="#skills">Skills</a>
+          <a class="nav-link" href="#projects">Proyectos</a>
+          <a class="nav-link" href="#experience">Experiencia</a>
+          <a class="nav-link" href="#education">Educación</a>
+          <a class="nav-link" href="#contact">Contacto</a>
+        </nav>
+      </div>
+
+      <div class="social">
+        <a href="mailto:nachomollag6@gmail.com">Email</a>
+        <a href="tel:+34663736905">+34 663 736 905</a>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════ MAIN ══════════════════════════════════ -->
+    <main class="main">
+
+      <!-- ──────────────────── 00. HERO ──────────────────── -->
+      <section id="about" class="section">
+        <p class="hero-label">// Hola, me llamo</p>
+
+        <h1 class="hero-name">Nacho Mollá.</h1>
+        <h2 class="hero-sub">Técnico Informático.</h2>
+
+        <p class="hero-desc">
+          Especializado en <strong style="color:var(--accent)">soporte IT</strong>,
+          administración de sistemas y ciberseguridad. Actualmente cursando
+          <strong style="color:var(--accent)">ASIR</strong> en IES Porçons y con
+          experiencia práctica en entornos reales dando soporte a más de
+          250 usuarios.
+        </p>
+
+        <a class="btn" href="#contact">Contactar &rarr;</a>
+
+        <br /><br /><br />
+
+        <div class="section-label">01. Sobre mí</div>
+        <h2 class="section-title">Un poco sobre mí</h2>
+
+        <div class="about-grid">
+          <div class="about-text">
+              <p>
+              Soy una persona <strong>amable y abierta</strong>, con facilidad para
+              relacionarme con los demás. Me gusta trabajar en equipo y colaborar
+              para alcanzar objetivos comunes, aportando siempre una actitud positiva
+              y comprometida.
+            </p>
+            <p>
+              Destaco por mi capacidad de adaptación y mi disposición para ayudar
+              a quienes me rodean. Disfruto aprendiendo de nuevas experiencias y
+              creando un ambiente de trabajo respetuoso y agradable.
+            </p>
+            <p>
+              Actualmente cursando <strong style="color:var(--accent)">ASIR</strong>
+              en IES Porçons, con experiencia real en soporte técnico, ciberseguridad
+              y administración de sistemas.
+            </p>
+          </div>
+
+          <!-- ⚠️ REEMPLAZA: Pon tu foto real (./foto.jpg) o elimina esta sección -->
+          <div class="avatar-wrap">
+            <img src="./foto.jpg" alt="Tu nombre" onerror="this.parentElement.style.display='none'" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────── 02. SKILLS ──────────────────── -->
+      <section id="skills" class="section">
+        <div class="section-label">02. Tecnologías</div>
+        <h2 class="section-title">Skills</h2>
+
+        <div class="skills-grid">
+          <div class="skill-group">
+            <p class="skill-group-title">Soporte IT</p>
+            <div class="skill-tags">
+              <span class="tag">Hardware</span>
+              <span class="tag">Software</span>
+              <span class="tag">Soporte IT</span>
+              <span class="tag">Gestión de Incidencias</span>
+              <span class="tag">Mantenimiento</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <p class="skill-group-title">Sistemas y Redes</p>
+            <div class="skill-tags">
+              <span class="tag">Administración de Sistemas</span>
+              <span class="tag">Redes</span>
+              <span class="tag">Linux</span>
+              <span class="tag">Nginx</span>
+              <span class="tag">Windows Server</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <p class="skill-group-title">Ciberseguridad</p>
+            <div class="skill-tags">
+              <span class="tag">NIS2</span>
+              <span class="tag">Auditorías de Seguridad</span>
+              <span class="tag">Hardening</span>
+              <span class="tag">Análisis de Riesgos</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <p class="skill-group-title">Idiomas</p>
+            <div class="skill-tags">
+              <span class="tag">Español – Nativo</span>
+              <span class="tag">Valenciano – Nativo</span>
+              <span class="tag">Inglés – B1</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <p class="skill-group-title">Soft skills</p>
+            <div class="skill-tags">
+              <span class="tag">Trabajo en Equipo</span>
+              <span class="tag">Liderazgo</span>
+              <span class="tag">Adaptabilidad</span>
+              <span class="tag">Proactividad</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────── 03. PROYECTOS ──────────────────── -->
+      <section id="projects" class="section">
+        <div class="section-label">03. Proyectos</div>
+        <h2 class="section-title">Proyectos Destacados</h2>
+
+        <!-- ★ PROYECTO REAL: Fons Europeus Ontinyent -->
+        <div class="project-featured">
+          <div class="project-info">
+            <p class="project-label">Proyecto Destacado</p>
+            <h3 class="project-name">Fons Europeus Ontinyent</h3>
+            <p class="project-desc">
+              Plataforma web oficial del Ayuntamiento de Ontinyent para la
+              visualización y seguimiento de los proyectos financiados con
+              Fondos Europeos. Incluye un geoportal interactivo, sección de
+              noticias, directorio de redes y certificado digital, todo con
+              soporte en valenciano y castellano.
+            </p>
+            <div class="project-tech">
+              <!-- ⚠️ REEMPLAZA: Con las tecnologías reales que usaste -->
+              <span class="tag">Java / JSP</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">CSS</span>
+              <span class="tag">Geoportal</span>
+              <span class="tag">Multilingüe</span>
+            </div>
+            <div class="project-links">
+              <a href="https://web.ontinyent.es/ProjectesEU/" target="_blank" rel="noopener">
+                ↗ Ver proyecto
+              </a>
+            </div>
+          </div>
+          <div class="project-img">
+            <!-- ⚠️ Pon una captura del proyecto: ./img/ontinyent.png -->
+            <img
+              src="./img/ontinyent.png"
+              alt="Fons Europeus Ontinyent"
+              onerror="this.parentElement.style.background='var(--bg-hover)';this.style.display='none'"
+            />
+          </div>
+        </div>
+
+
+      </section>
+
+      <!-- ──────────────────── 04. EXPERIENCIA ──────────────────── -->
+      <section id="experience" class="section">
+        <div class="section-label">04. Experiencia</div>
+        <h2 class="section-title">Trayectoria</h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <p class="timeline-date">Enero 2026 – Febrero 2026</p>
+            <p class="timeline-role">Prácticas ASIR – Desarrollo de Software / Ciberseguridad</p>
+            <p class="timeline-company">Imasd Robotics Engineering S.L · Ontinyent</p>
+            <p class="timeline-desc">
+              Asignado al departamento de Desarrollo de Software para colaborar en la
+              revisión de infraestructuras conforme a los requisitos de la directiva
+              <strong style="color:var(--accent)">NIS2</strong>. Realicé auditorías de seguridad
+              orientadas a la identificación de vulnerabilidades y configuraciones inseguras,
+              proponiendo medidas correctivas. Configuración y securización de servicios
+              <strong style="color:var(--accent)">Nginx</strong>, hardening y análisis de riesgos.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <p class="timeline-date">Junio 2025 – Agosto 2025</p>
+            <p class="timeline-role">Técnico Informático</p>
+            <p class="timeline-company">Formación Informática Desarrollo y Comunicaciones, S.L · Ontinyent</p>
+            <p class="timeline-desc">
+              Técnico de soporte asignado al Ayuntamiento de Ontinyent mediante empresa
+              externa. Instalación y configuración de impresoras, mantenimiento y soporte
+              de hardware, y asistencia técnica a usuarios. Mantenimiento preventivo y
+              correctivo de los equipos de distintos departamentos dando soporte a
+              <strong style="color:var(--accent)">más de 250 usuarios</strong>. Gestión y resolución
+              de incidencias evaluando prioridades y riesgos.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <p class="timeline-date">Marzo 2025 – Junio 2025</p>
+            <p class="timeline-role">Prácticas SMR – Técnico Informático</p>
+            <p class="timeline-company">Ayuntamiento de Ontinyent · Ontinyent</p>
+            <p class="timeline-desc">
+              Responsable del mantenimiento preventivo y correctivo del hardware de
+              diferentes departamentos municipales, con soporte a más de 250 usuarios.
+              Gestión de incidencias mediante evaluación de prioridades y riesgos,
+              asegurando una respuesta eficiente ante múltiples problemas simultáneos.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <p class="timeline-date">Junio 2022 – Septiembre 2022</p>
+            <p class="timeline-role">Camarero – Jefe de Sala</p>
+            <p class="timeline-company">Guapizza S.L · Ontinyent</p>
+            <p class="timeline-desc">
+              Organización y gestión de la sala del restaurante, liderando un equipo
+              de 5 camareros. Experiencia de liderazgo, responsabilidad y coordinación
+              de equipos de trabajo.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ──────────────────── 05. EDUCACIÓN ──────────────────── -->
+      <section id="education" class="section">
+        <div class="section-label">05. Educación</div>
+        <h2 class="section-title">Formación</h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <p class="timeline-date">2026 – Estudiando</p>
+            <p class="timeline-role">ASIR – Administración de Sistemas Informáticos en Red</p>
+            <p class="timeline-company">IES Porçons · Ontinyent</p>
+            <p class="timeline-desc">
+              Ciclo Formativo de Grado Superior orientado a la administración
+              de infraestructuras IT, redes, servidores, seguridad y servicios en la nube.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <p class="timeline-date">2024 – 2025</p>
+            <p class="timeline-role">SMR – Sistemas Microinformáticos y Redes</p>
+            <p class="timeline-company">IES L’Estació · Ontinyent</p>
+            <p class="timeline-desc">
+              Ciclo Formativo de Grado Medio. Instalación, configuración y
+              mantenimiento de sistemas microinformáticos y redes locales.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <p class="timeline-date">2017 – 2020</p>
+            <p class="timeline-role">Educación Secundaria Obligatoria</p>
+            <p class="timeline-company">Colegio La Concepción · Ontinyent</p>
+            <p class="timeline-desc">—</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ──────────────────── 06. CONTACTO ──────────────────── -->
+      <section id="contact" class="section">
+        <div class="section-label">06. Contacto</div>
+        <h2 class="section-title">¿Hablamos?</h2>
+
+        <p class="contact-sub">
+          Estoy abierto a nuevas oportunidades, prácticas o colaboraciones.
+          No dudes en contactarme por correo o teléfono.
+        </p>
+
+        <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+          <a class="btn" href="mailto:nachomollag6@gmail.com">
+            nachomollag6@gmail.com &rarr;
+          </a>
+          <a class="btn" href="tel:+34663736905">
+            +34 663 736 905
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    Diseñado y construido por <span>Nacho Mollá</span> · 2026 &middot; Ontinyent, Valencia
+  </footer>
+
+  <!-- ═══════════════ JS: Navegación activa al hacer scroll ════════════════ -->
+  <script>
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((link) => link.classList.remove('active'));
+            const id = entry.target.getAttribute('id');
+            const active = document.querySelector(`.nav-link[href="#${id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+  </script>
+</body>
+</html>
